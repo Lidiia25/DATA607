@@ -1,0 +1,49 @@
+---
+title: "DATA607-1"
+author: "Lidiia Tronina"
+date: "8/27/2017"
+output:
+  html_document: default
+  pdf_document: default
+---
+The original data set is found here:  https://archive.ics.uci.edu/ml/datasets/Mushroom
+```{r}
+library(RCurl)
+x <- getURL("https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data")
+mushroom<-data.frame(read.csv(text=x, header=F))
+```
+
+
+Add meaningful column names.
+```{r}
+colnames(mushroom) <- c("classes", "cap_shape", "cap_surface", "cap_color", "bruises", "odor")
+```
+Create a data frame with a subset of the columns in the dataset. Include the column that indicates ONLY edible mushrooms.  
+```{r}
+mushrooms <- mushroom[,c("classes",'cap_shape', 'cap_surface', 'bruises')]
+mushrooms2 = subset(mushrooms, mushrooms$classes=="e")
+```
+Replace the abbreviations used in the data. 
+```{r}
+mushrooms2$classes <- as.character(mushrooms2$classes)
+mushrooms2$classes [mushrooms2$classes=="e"] <- "edible"
+mushrooms2$classes [mushrooms2$classes=="p"] <- "poisonous"
+mushrooms2$cap_shape <- as.character(mushrooms2$cap_shape)
+mushrooms2$cap_shape [mushrooms2$cap_shape=="b"] <- "bell"
+mushrooms2$cap_shape [mushrooms2$cap_shape=="c"] <- "conical"
+mushrooms2$cap_shape [mushrooms2$cap_shape=="x"] <- "convex"
+mushrooms2$cap_shape [mushrooms2$cap_shape=="f"] <- "flat"
+mushrooms2$cap_shape [mushrooms2$cap_shape=="k"] <- "knobbed"
+mushrooms2$cap_shape [mushrooms2$cap_shape=="s"] <- "sunken"
+
+mushrooms2$cap_surface <- as.character(mushrooms2$cap_surface)
+mushrooms2$cap_surface [mushrooms2$cap_surface=="f"] <- "fibrous"
+mushrooms2$cap_surface [mushrooms2$cap_surface=="g"] <- "grooves"
+mushrooms2$cap_surface [mushrooms2$cap_surface=="y"] <- "sculy"
+mushrooms2$cap_surface [mushrooms2$cap_surface=="s"] <- "smooth"
+
+mushrooms2$bruises <- as.character(mushrooms2$bruises)
+mushrooms2$bruises [mushrooms2$bruises=="t"] <- "bruises"
+mushrooms2$bruises [mushrooms2$bruises=="f"] <- "no"
+head(mushrooms2)
+```
