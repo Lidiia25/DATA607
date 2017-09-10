@@ -1,6 +1,9 @@
 DROP TABLE IF EXISTS movies;
 DROP TABLE IF EXISTS viewer;
 
+
+-- I decided to create 2 separate tables because each table represents different data.
+
 CREATE TABLE movies
 (
   movie_id int PRIMARY KEY,
@@ -35,4 +38,5 @@ LEFT JOIN viewer ON movies.movie_id = viewer.movie_id
 
 ORDER BY movies.movie_id
 
+-- After I join 2 tables, I saved the results as "moviereviews" table. 
 
