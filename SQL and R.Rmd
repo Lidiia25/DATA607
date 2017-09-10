@@ -1,0 +1,26 @@
+---
+title: "SQL and R"
+author: "Lidiia Tronina"
+date: "9/7/2017"
+output: html_document
+---
+
+Install following packages:
+- RMySQL
+https://cran.r-project.org/web/packages/RMySQL/index.html
+```{r}
+require(RMySQL)
+```
+Connect to database using following crudentials:
+
+```{r}
+mydb <- dbConnect(MySQL(), user = "User", password = "Password", dbname = "tb", host = "localhost")
+```
+
+Retrieve the dataset:
+```{r}
+reviews <- dbGetQuery(mydb, "select * from moviereviews")
+reviews
+
+```
+
