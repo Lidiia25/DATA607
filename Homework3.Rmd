@@ -1,0 +1,104 @@
+---
+title: "R Character Manipulation and Date Processing"
+author: "Lidiia Tronina"
+date: "9/17/2017"
+output: html_document
+---
+```{r}
+library(stringr)
+```
+
+###Problem 3
+Copy the introductory example. The vector name stores the extracted name.
+
+```{r}
+rawdata <-"555-1239Moe Szyslak(636) 555-0113Burns, C. Montgomery555-6542Rev. Timothy Lovejoy555 8904Ned Flanders636-555-3226Simpson, Homer5553642Dr. Julius Hibbert" 
+```
+
+```{r}
+name <- unlist(str_extract_all(rawdata, "[[:alpha:]., ]{2,}"))
+name
+```
+a. Use the tools of this chapter to rearrange the vector so that all elements conform to the standard first_name last_name.
+
+```{r}
+name2 <- str_replace_all(name, pattern = "Dr.", replacement = ",")
+name3 <- str_replace_all(name2, pattern = "Rev.", replacement = ",")
+name3
+
+```
+
+
+b. Construct a logical vector indicating whether a character has a title (i.e., Rev. and Dr.).
+
+```{r}
+title <- str_detect(name,"Rev.|Dr.")
+titlelist <- data.frame (name, title)
+titlelist
+```
+c. Construct a logical vector indicating whether a character has a second name
+
+```{r}
+mid_name <- str_detect(name," [A-Z]\\.")
+midname_list<- data.frame (name, mid_name)
+midname_list
+```
+
+###Problem 4
+
+Describe the types of strings that conform to the following regular expressions and construct an example that is matched be the regular expression. 
+
+a. Any digits before $ sign 
+
+
+```{r}
+sample <- "813921809328$zx"  
+str_extract(sample, "[0-9]+\\$")
+```
+b.  It will extract word with 4 lower case letters.
+
+```{r}
+sample <- "dataproject lidia Test cuny"  
+str_extract(sample, "\\b[a-z]{1,4}\\b")
+```
+
+c.
+
+It will extract any charecters before ".txt", including ".txt"
+
+```{r}
+sample <- "queens.txt"  
+str_extract(sample, ".*?\\.txt$")
+```
+
+d.
+
+It will extract 2 digits prior "/" and than exctly 2 digits after and than "/" again following by 4 digits.
+
+```{r}
+sample <- "010/06/19920"  
+str_extract(sample, "\\d{2}/\\d{2}/\\d{4}")
+```
+
+e.
+It will extract charecter within  "< >" and between both tags. 
+
+```{r}
+sample = "<text1> text text text </text1>"
+str_extract(sample, "<(.+?)>.+?</\\1>") 
+```
+
+
+###Problem 9
+
+
+```{r}
+code <- c("clcopCow1zmstc0d87wnkig7OvdicpNuggvhryn92Gjuwczi8hqrfpRxs5Aj5dwpn0TanwoUwisdij7Lj8kpf03AT5Idr3coc0bt7yczjatOaootj55t3Nj3ne6c4Sfek.r1w1YwwojigOd6vrfUrbz2.2bkAnbhzgv4R9i05zEcrop.wAgnb.SqoU65fPa1otfb7wEm24k6t3sR9zqe5fy89n6Nd5t9kc4fE905gmc4Rgxo5nhDk!gr")
+
+```
+
+
+```{r}
+str_extract_all(code,"[A-Z]")
+```
+CONGRATULATIONS YOU ARE A SUPERNERD NERD :)
