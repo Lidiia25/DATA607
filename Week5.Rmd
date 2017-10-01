@@ -1,0 +1,77 @@
+---
+title: "Tidying and Transforming Data"
+author: "Lidiia Tronina"
+date: "9/30/2017"
+output: html_document
+---
+
+
+
+```{r}
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+```
+
+
+```{r}
+delays <- read.csv("https://raw.githubusercontent.com/Lidiia25/DATA607/master/arrivaldelays.csv")
+
+```
+
+Add missing data to first column and delete empty row
+```{r}
+delays[2,1] = "ALASKA"
+delays[5,1] = "AMWEST"
+delays <- na.omit(delays)
+```
+
+Reshape Data
+```{r}
+delays <- gather(delays, city, total, Los.Angeles:Seattle)
+delays <- spread(delays, key = X.1, value = total)
+delays
+```
+
+
+
+```{r}
+colnames(delays)[1] <- "Airline"
+as.numeric(delays$delayed)
+as.numeric(delays$`on time`)
+delays <- mutate(delays, total = delayed + `on time`)
+delays
+```
+
+
+Compare arrival delays
+
+```{r}
+
+airlines <- select(delays, Airline, delayed, total)%>% 
+    group_by(Airline) %>% 
+    summarise(delays = sum(delayed), total = sum(total)) %>%
+  mutate(percent = delays/total * 100)
+airlines
+
+```
+
+```{r}
+citydelays <- select(delays, Airline, city, delayed, total)%>% 
+    group_by(city) %>% 
+    summarise(delays = sum(delayed), total = sum(total)) %>%
+  mutate(percent = delays/total * 100)
+citydelays
+```
+
+
+```{r}
+ggplot(airlines, aes(x= airlines$Airline, y = airlines$percent)) +geom_col()
+
+```
+
+
+```{r}
+ggplot(citydelays, aes(x= citydelays$city, y = citydelays$percent)) +geom_col()
+
+```
