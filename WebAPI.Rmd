@@ -1,0 +1,29 @@
+---
+title: "Web APIs"
+author: "Lidiia Tronina"
+date: "10/29/2017"
+output: html_document
+---
+```{r setup, echo=TRUE, results='hide', warning=FALSE, message=FALSE}
+require(httr)
+require(jsonlite)
+```
+
+```{r}
+key <- "&api-key=dc71986436cd4a29a5d1fe117299fb82"
+url <- "http://api.nytimes.com/svc/search/v2/articlesearch.json?q=oscar+2017"
+req <- fromJSON(paste0(url, key))
+article_response <- req$response$docs
+results <- data.frame(article_response)
+colnames(results)
+#Fetching JSON data from REST APIs. (2017, May 31). Retrieved October 29, 2017, from https://cran.r-project.org/web/packages/jsonlite/vignettes/json-apis.html
+
+```
+
+
+
+
+
+
+
+
